@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sxd.invmgmt.dao.authc.UserDao">
+
+    <sql id="table_name">
+        resource
+    </sql>
+
+    <sql id="dynamic_full_match_condition">
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="id != null">
+                AND <include refid="table_name"/>.id = #{id}
+            </if>
+            <if test="name != null">
+                AND <include refid="table_name"/>.name = #{name}
+            </if>
+            <if test="type != null">
+                AND <include refid="table_name"/>.type = #{type}
+            </if>
+            <if test="url != null">
+                AND <include refid="table_name"/>.url = #{url}
+            </if>
+            <if test="parentId != null">
+                AND <include refid="table_name"/>.parent_id = #{parentId}
+            </if>
+            <if test="parentIds != null">
+                AND <include refid="table_name"/>.parent_ids = #{parentIds}
+            </if>
+            <if test="permission != null">
+                AND <include refid="table_name"/>.permission = #{permission}
+            </if>
+            <if test="available != null">
+                AND <include refid="table_name"/>.available = #{available}
+            </if>
+            AND <include refid="table_name"/>.deleted = #{deleted}
+        </trim>
+    </sql>
+
+    <!--BaseDao中的方法-->
+    <insert id="insert" parameterType="ResourceEntity">
+        INSERT ignore INTO <include refid="table_name"/> (
+        id, name, type, url,
+        parent_id, parent_ids, permission, available,
+        deleted
+        )
+        VALUES (
+        NULL, #{name}, #{type}, #{url},
+        #{parentId}, #{parentIds}, #{permission}, #{available}
+        #{deleted}
+        )
+    </insert>
+
+    <update id="update" parameterType="ResourceEntity">
+        UPDATE <include refid="table_name"/> 
+        <set>
+            <if test="name != null" >
+                name = #{name},
+            </if>
+            <if test="type != null" >
+                type = #{type},
+            </if>
+            <if test="url != null" >
+                url = #{url},
+            </if>
+            <if test="parentId != null" >
+                parent_id = #{parentId},
+            </if>
+            <if test="parentIds != null" >
+                parent_ids = #{parentIds},
+            </if>
+            <if test="permission != null" >
+                permission = #{permission},
+            </if>
+            <if test="available != null" >
+                available = #{available},
+            </if>
+        </set>
+        WHERE
+        id = #{id}
+    </update>
+
+    <update id="logicDelete" parameterType="ResourceEntity">
+        UPDATE <include refid="table_name"/> SET
+        deleted = #{deleted}
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="ResourceEntity" resultType="ResourceEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE
+        id = #{id} AND
+        deleted = 0
+    </select>
+
+    <select id="selectOne" parameterType="ResourceEntity" resultType="ResourceEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="ResourceEntity">
+        SELECT COUNT(1) FROM <include refid="table_name" />
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="select" parameterType="ResourceEntity" resultType="ResourceEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="selectAll" resultType="ResourceEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE deleted = 0
+    </select>
+
+    <!--自定义方法-->
+
+
+
+</mapper>

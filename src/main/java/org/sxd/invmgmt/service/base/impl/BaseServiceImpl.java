@@ -131,30 +131,100 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
     }
 
     public Result<Integer> edit(D dto) {
-        return null;
+        Result<Integer> result = new Result<Integer>(false, "操作失败", null);
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        int row = baseDao.update(entity);
+        if (row > 0) {
+            result = new Result<Integer>(true, "修改成功", row);
+        } else {
+            result = new Result<Integer>(false, "修改失败", 0);
+        }
+        return result;
     }
 
     public Result<Integer> remove(D dto) {
-        return null;
+        Result<Integer> result = new Result<Integer>(false, "操作失败", null);
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        int row = baseDao.logicDelete(entity);
+        if (row > 0) {
+            result = new Result<Integer>(true, "删除成功", row);
+        } else {
+            result = new Result<Integer>(false, "删除失败", 0);
+        }
+        return result;
     }
 
-    public Result<D> queryById(D dto) {
-        return null;
+    public Result<D> findById(D dto) {
+        Result<D> result;
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        entity = baseDao.selectById(entity);
+        if (entity != null) {
+            result = new Result<D>(true, "查询成功", entityToDto(entity));
+        } else {
+            result = new Result<D>(false, "查询失败", null);
+        }
+        return result;
     }
 
-    public Result<D> queryOne(D dto) {
-        return null;
+    public Result<D> findOne(D dto) {
+        Result<D> result;
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        entity = baseDao.selectOne(entity);
+        if (entity != null) {
+            result = new Result<D>(true, "查询成功", entityToDto(entity));
+        } else {
+            result = new Result<D>(false, "查询失败", null);
+        }
+        return result;
     }
 
-    public Result<D> queryCount(D dto) {
-        return null;
+    public Result<Integer> findCount(D dto) {
+        Result<Integer> result;
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        Integer count = baseDao.selectCount(entity);
+        if (count != null) {
+            result = new Result<Integer>(true, "查询成功", count);
+        } else {
+            result = new Result<Integer>(false, "查询失败", null);
+        }
+        return result;
     }
 
-    public List<D> query(D dto) {
-        return null;
+    public Result<List<D>> find(D dto) {
+        Result<List<D>> result;
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        List<E> entityList = baseDao.select(entity);
+        if (entityList != null) {
+            result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
+        } else {
+            result = new Result<List<D>>(false, "查询失败", null);
+        }
+        return result;
     }
 
-    public List<D> queryAll(D dto) {
-        return null;
+    public Result<List<D>> findAll(D dto) {
+        Result<List<D>> result;
+        baseDaoCheck();
+        dtoCheck(dto);
+        E entity = dtoToEntity(dto);
+        List<E> entityList = baseDao.selectAll(entity);
+        if (entityList != null) {
+            result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
+        } else {
+            result = new Result<List<D>>(false, "查询失败", null);
+        }
+        return result;
     }
 }

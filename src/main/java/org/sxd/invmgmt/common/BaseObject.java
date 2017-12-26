@@ -7,5 +7,5 @@ import org.slf4j.LoggerFactory;
  * Created by eddie on 2017/12/19.
  */
 public class BaseObject {
-    public Logger logger = LoggerFactory.getLogger(getClass());
+    protected Logger logger = LoggerFactory.getLogger(getClass());
 }

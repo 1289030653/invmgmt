@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sxd.invmgmt.dao.authc.UserDao">
+
+    <sql id="table_name">
+        user
+    </sql>
+
+    <sql id="dynamic_full_match_condition">
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="id != null">
+                AND <include refid="table_name"/>.id = #{id}
+            </if>
+            <if test="organizationId != null">
+                AND <include refid="table_name"/>.organization_id = #{organizationId}
+            </if>
+            <if test="username != null">
+                AND <include refid="table_name"/>.username = #{username}
+            </if>
+            <if test="password != null">
+                AND <include refid="table_name"/>.password = #{password}
+            </if>
+            <if test="name != null">
+                AND <include refid="table_name"/>.name = #{name}
+            </if>
+            <if test="salt != null">
+                AND <include refid="table_name"/>.salt = #{salt}
+            </if>
+            <if test="roleIds != null">
+                AND <include refid="table_name"/>.role_ids = #{roleIds}
+            </if>
+            <if test="locked != null">
+                AND <include refid="table_name"/>.locked = #{locked}
+            </if>
+            AND <include refid="table_name"/>.deleted = #{deleted}
+        </trim>
+    </sql>
+
+    <!--BaseDao中的方法-->
+    <insert id="insert" parameterType="UserEntity">
+        INSERT ignore INTO <include refid="table_name"/> (
+            id, organization_id, username, password, 
+            name, salt, role_ids, locked
+        )
+        VALUES (
+            NULL, #{organizationId}, #{username}, #{password},
+            #{name}, #{salt}, #{roleIds}, #{locked}
+        )
+    </insert>
+
+    <update id="update" parameterType="UserEntity">
+        UPDATE <include refid="table_name"/> SET
+            organization_id = #{organizationId},
+            username = #{username},
+            password = #{password},
+            name = #{name}
+            salt = #{salt},
+            role_ids = #{roleIds},
+            locked = #{locked}
+        WHERE
+            id = #{id}
+    </update>
+
+    <update id="logicDelete" parameterType="UserEntity">
+        UPDATE <include refid="table_name"/> SET
+            deleted = #{deleted}
+        WHERE
+            id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="UserEntity" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE
+            id = #{id} AND
+            deleted = 0
+    </select>
+
+    <select id="selectOne" parameterType="UserEntity" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+        limit 1
+    </select>
+
+    <select id="selectCount" parameterType="UserEntity">
+        SELECT COUNT(1) FROM <include refid="table_name" />
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="select" parameterType="UserEntity" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="selectAll" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE deleted = 0
+    </select>
+
+    <!--自定义方法-->
+
+    <select id="selectByUsername" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE username = #{username}
+    </select>
+
+
+</mapper>

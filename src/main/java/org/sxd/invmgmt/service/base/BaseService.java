@@ -36,33 +36,33 @@ public interface BaseService<D extends Dto> {
      * @param dto
      * @return
      */
-    public Result<D> queryById(D dto);
+    public Result<D> findById(D dto);
 
     /**
      * @desc 查询单个(limt 1)
      * @param dto
      * @return
      */
-    public Result<D> queryOne(D dto);
+    public Result<D> findOne(D dto);
 
     /**
      * 查询数量
      * @param dto
      * @return
      */
-    public Result<D> queryCount(D dto);
+    public Result<Integer> findCount(D dto);
 
     /**
      * @desc 根据条件查询
      * @param dto
      * @return
      */
-    public List<D> query(D dto);
+    public Result<List<D>> find(D dto);
 
     /**
      * @desc 查询所有
      * @param dto
      * @return
      */
-    public List<D> queryAll(D dto);
+    public Result<List<D>> findAll(D dto);
 }
