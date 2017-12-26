@@ -1,13 +1,14 @@
-package org.sxd.invmgmt.entity.authc;
+package org.sxd.invmgmt.dto.authc;
 
-import org.sxd.invmgmt.entity.base.Entity;
+import org.sxd.invmgmt.dto.base.Dto;
+import org.sxd.invmgmt.entity.authc.UserEntity;
 
+import java.util.List;
 
 /**
- * Created by eddie on 2017/12/25.
- * 用户实体类
+ * Created by eddie on 2017/12/26.
  */
-public class UserEntity implements Entity {
+public class UserDto implements Dto {
     /**
      * 编号
      */
@@ -53,14 +54,18 @@ public class UserEntity implements Entity {
      */
     private Boolean deleted = Boolean.FALSE;
 
-    public UserEntity() {
+    public UserDto() {
     }
 
-    public UserEntity(String username) {
+    public UserDto(Long id) {
+        this.id = id;
+    }
+
+    public UserDto(String username) {
         this.username = username;
     }
 
-    public UserEntity(String username, String password) {
+    public UserDto(String username, String password) {
         this.username = username;
         this.password = password;
     }
@@ -142,18 +147,18 @@ public class UserEntity implements Entity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        UserEntity user = (UserEntity) o;
+        UserDto userDto = (UserDto) o;
 
-        if (id != null ? !id.equals(user.id) : user.id != null) return false;
-        if (organizationId != null ? !organizationId.equals(user.organizationId) : user.organizationId != null)
+        if (id != null ? !id.equals(userDto.id) : userDto.id != null) return false;
+        if (organizationId != null ? !organizationId.equals(userDto.organizationId) : userDto.organizationId != null)
             return false;
-        if (username != null ? !username.equals(user.username) : user.username != null) return false;
-        if (password != null ? !password.equals(user.password) : user.password != null) return false;
-        if (name != null ? !name.equals(user.name) : user.name != null) return false;
-        if (salt != null ? !salt.equals(user.salt) : user.salt != null) return false;
-        if (roleIds != null ? !roleIds.equals(user.roleIds) : user.roleIds != null) return false;
-        if (!locked.equals(user.locked)) return false;
-        return deleted.equals(user.deleted);
+        if (username != null ? !username.equals(userDto.username) : userDto.username != null) return false;
+        if (password != null ? !password.equals(userDto.password) : userDto.password != null) return false;
+        if (name != null ? !name.equals(userDto.name) : userDto.name != null) return false;
+        if (salt != null ? !salt.equals(userDto.salt) : userDto.salt != null) return false;
+        if (roleIds != null ? !roleIds.equals(userDto.roleIds) : userDto.roleIds != null) return false;
+        if (!locked.equals(userDto.locked)) return false;
+        return deleted.equals(userDto.deleted);
     }
 
     @Override
@@ -185,4 +190,7 @@ public class UserEntity implements Entity {
                 '}';
     }
 
+    public String getCredentialsSalt() {
+        return username + salt;
+    }
 }
