@@ -72,7 +72,10 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
         Result<UserDto> result;
         UserEntity userEntity = userDao.selectByUsername(username);
         if (userEntity != null) {
-            result = new Result<UserDto>(true, MsgEnum.OPRATION_SUCCEED.getMsg(), entityToDto(userEntity));
+            result = new Result<UserDto>(
+                    true,
+                    MsgEnum.OPRATION_SUCCEED.getMsg(),
+                    entityToDto(userEntity).setRoleIdsList());
         } else {
             result = new Result<UserDto>(false, MsgEnum.NULL_RESULT.getMsg(), null);
         }

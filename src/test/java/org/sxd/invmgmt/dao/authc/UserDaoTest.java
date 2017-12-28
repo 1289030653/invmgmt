@@ -18,6 +18,7 @@ public class UserDaoTest extends BaseDaoTest {
         UserEntity entity = userDao.selectByUsername("admin");
         Long id = entity.getId();
         System.out.println(entity);
+        //entity.setName("asdfasd");
     }
 
     public void insert() throws Exception {

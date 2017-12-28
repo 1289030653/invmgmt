@@ -19,7 +19,7 @@ public interface UserService extends BaseService<UserDto> {
 
     /**
      * 修改密码
-     * @param userDto
+     * @param
      * @return
      */
     Result<Integer> changePassword(Long userId, String newPassword);

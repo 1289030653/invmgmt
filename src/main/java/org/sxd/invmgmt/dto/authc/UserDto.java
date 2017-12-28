@@ -1,8 +1,10 @@
 package org.sxd.invmgmt.dto.authc;
 
+import org.apache.shiro.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 import org.sxd.invmgmt.dto.base.Dto;
-import org.sxd.invmgmt.entity.authc.UserEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -40,9 +42,14 @@ public class UserDto implements Dto {
     private String salt;
 
     /**
-     * 拥有的角色列表
+     * 拥有的角色字符串
      */
     private String roleIds;
+
+    /**
+     * 角色列表
+     */
+    private List<Long> roleIdsList;
 
     /**
      * 是否锁定
@@ -124,6 +131,7 @@ public class UserDto implements Dto {
 
     public void setRoleIds(String roleIds) {
         this.roleIds = roleIds;
+        this.setRoleIdsList();
     }
 
     public Boolean getLocked() {
@@ -192,5 +200,38 @@ public class UserDto implements Dto {
 
     public String getCredentialsSalt() {
         return username + salt;
+    }
+
+    public UserDto setRoleIdsList() {
+        if (StringUtils.isEmpty(roleIds)) {
+            return this;
+        }
+        String[] roleIdStrs = roleIds.split(",");
+        for (String roleIdStr : roleIdStrs) {
+            if (!StringUtils.isEmpty(roleIdStr)) {
+                getRoleIdsList().add(Long.valueOf(roleIdStr));
+            }
+        }
+        return this;
+    }
+
+    public void setRoleIdsList(List<Long> newRoleIdsList) {
+        if (CollectionUtils.isEmpty(newRoleIdsList)) {
+            return;
+        }
+        this.roleIdsList = newRoleIdsList;
+        StringBuilder str = new StringBuilder();
+        for (Long roleId : newRoleIdsList) {
+            str.append(roleId);
+            str.append(",");
+        }
+        this.setRoleIds(str.toString());
+    }
+
+    public List<Long> getRoleIdsList() {
+        if (roleIdsList == null) {
+            roleIdsList = new ArrayList<Long>();
+        }
+        return roleIdsList;
     }
 }
