@@ -1,5 +1,6 @@
 package org.sxd.invmgmt.service.authc.impl;
 
+import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sxd.invmgmt.common.MsgEnum;
@@ -7,9 +8,11 @@ import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dao.authc.UserDao;
 import org.sxd.invmgmt.dto.authc.UserDto;
 import org.sxd.invmgmt.entity.authc.UserEntity;
+import org.sxd.invmgmt.service.authc.RoleService;
 import org.sxd.invmgmt.service.authc.UserService;
 import org.sxd.invmgmt.service.base.impl.BaseServiceImpl;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -19,6 +22,9 @@ import java.util.Set;
 public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implements UserService {
 
     private UserDao userDao;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private PasswordHelper passwordHelper;
@@ -82,9 +88,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
         return result;
     }
 
-    //TODO
     public Set<String> findRoles(String username) {
-        return null;
+        UserDto userDto = this.findByUsername(username).getObj();
+        if (userDto == null) {
+            return Collections.emptySet();
+        }
+        return roleService.findRoles(userDto.getRoleIdsList().toArray(new Long[0]));
     }
 
     public Set<String> findPermissions(String username) {
