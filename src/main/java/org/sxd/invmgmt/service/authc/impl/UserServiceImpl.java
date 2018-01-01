@@ -75,6 +75,7 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
     }
 
     public Result<UserDto> findByUsername(String username) {
+        System.out.println("username:" + username);
         Result<UserDto> result;
         UserEntity userEntity = userDao.selectByUsername(username);
         if (userEntity != null) {
