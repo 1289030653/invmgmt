@@ -7,27 +7,16 @@
        http://www.springframework.org/schema/util
        http://www.springframework.org/schema/util/spring-util.xsd">
     <!--基于Form表单的身份验证过滤器-->
-    <bean id="formAuthenticationFilter"
-          class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
-        <property name="loginUrl" value="/user/login"/>
-        <property name="usernameParam" value="username"/>
-        <property name="passwordParam" value="password"/>
-        <property name="rememberMeParam" value="rememberMe"/>
-    </bean>
+    <!--<bean id="formAuthenticationFilter"-->
+          <!--class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">-->
+        <!--<property name="loginUrl" value="/login"/>-->
+        <!--<property name="usernameParam" value="username"/>-->
+        <!--<property name="passwordParam" value="password"/>-->
+        <!--<property name="rememberMeParam" value="rememberMe"/>-->
+    <!--</bean>-->
     <!--Shrio的Web过滤器-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
-        <property name="loginUrl" value="/login"/>
-        <property name="successUrl" value="/success"/>
-        <property name="unauthorizedUrl" value="/unauthorized"/>
-        <property name="filters">
-            <util:map>
-                <entry key="authc" value-ref="formAuthenticationFilter"/>
-
-            </util:map>
-        </property>
-
-
         <!-- override these for application-specific URLs if you like:
         <property name="loginUrl" value="/login.jsp"/>
         <property name="successUrl" value="/home.jsp"/>
@@ -43,9 +32,7 @@
         <property name="filterChainDefinitions">
             <value>
                 # some example chain definitions:
-                /user/login = authc
-                /authenticated = authc
-                /** = authc
+                /login = anon
                 # more URL-to-FilterChain definitions here
             </value>
         </property>

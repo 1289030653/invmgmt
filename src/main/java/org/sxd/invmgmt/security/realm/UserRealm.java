@@ -35,7 +35,7 @@ public class UserRealm extends AuthorizingRealm {
         Result<UserDto> result = userService.findByUsername(username);
         System.out.println(result.getObj());
         UserDto user;
-        if (result.isSuccess()) {
+        if (result.getObj() != null) {
             user = result.getObj();
         } else {
             throw new UnknownAccountException();//没找到账号
