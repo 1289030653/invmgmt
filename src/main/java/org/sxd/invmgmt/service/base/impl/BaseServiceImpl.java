@@ -214,16 +214,14 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         return result;
     }
 
-    public Result<List<D>> findAll(D dto) {
+    public Result<List<D>> findAll() {
         Result<List<D>> result;
         baseDaoCheck();
-        dtoCheck(dto);
-        E entity = dtoToEntity(dto);
-        List<E> entityList = baseDao.selectAll(entity);
+        List<E> entityList = baseDao.selectAll();
         if (entityList != null) {
             result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
         } else {
-            result = new Result<List<D>>(false, "查询失败", null);
+            result = new Result<List<D>>(true, "查询为空", null);
         }
         return result;
     }

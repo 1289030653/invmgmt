@@ -60,9 +60,9 @@ public interface BaseDao<E extends Entity> {
 
     /**
      * @desc 查询全部记录
-     * @param entity
+     * @param
      * @return List<entity>
      */
-    public List<E> selectAll(E entity);
+    public List<E> selectAll();
 
 }

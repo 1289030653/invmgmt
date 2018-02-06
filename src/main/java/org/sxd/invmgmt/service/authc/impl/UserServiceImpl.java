@@ -1,6 +1,5 @@
 package org.sxd.invmgmt.service.authc.impl;
 
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sxd.invmgmt.common.MsgEnum;

@@ -61,8 +61,8 @@ public interface BaseService<D extends Dto> {
 
     /**
      * @desc 查询所有
-     * @param dto
+     * @param
      * @return
      */
-    public Result<List<D>> findAll(D dto);
+    public Result<List<D>> findAll();
 }
