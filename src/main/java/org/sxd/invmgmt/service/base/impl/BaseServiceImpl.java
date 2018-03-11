@@ -5,6 +5,7 @@ import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dao.base.BaseDao;
 import org.sxd.invmgmt.dto.base.Dto;
 import org.sxd.invmgmt.entity.base.Entity;
+import org.sxd.invmgmt.entity.base.Pagination;
 import org.sxd.invmgmt.exception.BusinessException;
 import org.sxd.invmgmt.service.base.BaseService;
 import org.sxd.invmgmt.utils.BeanCopyUtil;
@@ -32,6 +33,17 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         if (dto == null) {
             logger.error("Null dto");
             throw new BusinessException("dto为空");
+        }
+    }
+
+    protected void pagenationCheck(Pagination pagination) {
+        if (pagination == null) {
+            logger.error("Null pagination");
+            throw new BusinessException("pagination为空");
+        }
+        if (pagination.getPage() < 1 || pagination.getPageSize() < 1) {
+            logger.error("Wrong pagination");
+            throw new BusinessException("分页信息有误");
         }
     }
 
@@ -214,16 +226,29 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         return result;
     }
 
-    public Result<List<D>> findAll(D dto) {
+    public Result<List<D>> findAll() {
         Result<List<D>> result;
         baseDaoCheck();
-        dtoCheck(dto);
-        E entity = dtoToEntity(dto);
-        List<E> entityList = baseDao.selectAll(entity);
+        List<E> entityList = baseDao.selectAll();
+<<<<<<< HEAD
         if (entityList != null) {
             result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
         } else {
             result = new Result<List<D>>(false, "查询失败", null);
+        }
+        return result;
+    }
+
+    public Result<List<D>> findByPage(Pagination pagination) {
+        Result<List<D>> result;
+        baseDaoCheck();
+        List<E> entityList = baseDao.selectByPage(pagination);
+=======
+>>>>>>> c8c1653dced2d8abb8af1fbd16bc2dc138a6628f
+        if (entityList != null) {
+            result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
+        } else {
+            result = new Result<List<D>>(true, "查询为空", null);
         }
         return result;
     }

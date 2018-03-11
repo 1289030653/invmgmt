@@ -80,7 +80,7 @@
     <select id="selectOne" parameterType="UserEntity" resultType="UserEntity">
         SELECT * FROM <include refid="table_name"/>
         <include refid="dynamic_full_match_condition" />
-        limit 1
+        LIMIT 1
     </select>
 
     <select id="selectCount" parameterType="UserEntity">
@@ -96,6 +96,11 @@
     <select id="selectAll" resultType="UserEntity">
         SELECT * FROM <include refid="table_name"/>
         WHERE deleted = 0
+    </select>
+
+    <select id="selectByPage" parameterType="Pagination" resultType="UserEntity">
+        SELECT * FROM <include refid="table_name"/>
+        LIMIT #{start}, #{pageSize}
     </select>
 
     <!--自定义方法-->

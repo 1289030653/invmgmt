@@ -64,11 +64,14 @@
     <!-- security datasource: -->
     <bean id="userRealm" class="org.sxd.invmgmt.security.realm.UserRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="authorizationCachingEnabled" value="false"/>
     </bean>
 
     <!-- Enable Shiro Annotations for Spring-configured beans.  Only run after -->
     <!-- the lifecycleBeanProcessor has run: -->
-    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor"/>
+    <bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor">
+        <property name="proxyTargetClass" value="true"/>
+    </bean>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>

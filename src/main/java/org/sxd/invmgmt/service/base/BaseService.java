@@ -3,6 +3,7 @@ package org.sxd.invmgmt.service.base;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dto.base.Dto;
 import org.sxd.invmgmt.entity.base.Entity;
+import org.sxd.invmgmt.entity.base.Pagination;
 
 import java.util.List;
 
@@ -61,8 +62,18 @@ public interface BaseService<D extends Dto> {
 
     /**
      * @desc 查询所有
-     * @param dto
+     * @param
      * @return
      */
-    public Result<List<D>> findAll(D dto);
+    public Result<List<D>> findAll();
+<<<<<<< HEAD
+
+    /**
+     * @desc 分页查询
+     * @param  pagination
+     * @return
+     */
+    public Result<List<D>> findByPage(Pagination pagination);
+=======
+>>>>>>> c8c1653dced2d8abb8af1fbd16bc2dc138a6628f
 }

@@ -1,5 +1,6 @@
 package org.sxd.invmgmt.service.authc.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sxd.invmgmt.dao.authc.RoleDao;
 import org.sxd.invmgmt.dto.authc.RoleDto;
@@ -15,6 +16,7 @@ import java.util.Set;
  */
 @Service
 public class RoleServiceImpl extends BaseServiceImpl<RoleDto, RoleEntity> implements RoleService {
+    @Autowired
     private RoleDao roleDao;
 
     public void setRoleDao(RoleDao roleDao) {
