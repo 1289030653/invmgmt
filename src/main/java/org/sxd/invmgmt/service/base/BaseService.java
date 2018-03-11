@@ -66,7 +66,6 @@ public interface BaseService<D extends Dto> {
      * @return
      */
     public Result<List<D>> findAll();
-<<<<<<< HEAD
 
     /**
      * @desc 分页查询
@@ -74,6 +73,5 @@ public interface BaseService<D extends Dto> {
      * @return
      */
     public Result<List<D>> findByPage(Pagination pagination);
-=======
->>>>>>> c8c1653dced2d8abb8af1fbd16bc2dc138a6628f
+
 }

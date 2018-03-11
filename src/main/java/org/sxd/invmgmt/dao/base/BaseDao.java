@@ -61,17 +61,9 @@ public interface BaseDao<E extends Entity> {
 
     /**
      * @desc 查询全部记录
-<<<<<<< HEAD
      * @return List<entity>
      */
     public List<E> selectAll();
 
     public List<E> selectByPage(Pagination pagination);
-=======
-     * @param
-     * @return List<entity>
-     */
-    public List<E> selectAll();
->>>>>>> c8c1653dced2d8abb8af1fbd16bc2dc138a6628f
-
 }

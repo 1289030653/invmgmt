@@ -230,11 +230,10 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         Result<List<D>> result;
         baseDaoCheck();
         List<E> entityList = baseDao.selectAll();
-<<<<<<< HEAD
         if (entityList != null) {
             result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
         } else {
-            result = new Result<List<D>>(false, "查询失败", null);
+            result = new Result<List<D>>(true, "查询为空", null);
         }
         return result;
     }
@@ -243,8 +242,6 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         Result<List<D>> result;
         baseDaoCheck();
         List<E> entityList = baseDao.selectByPage(pagination);
-=======
->>>>>>> c8c1653dced2d8abb8af1fbd16bc2dc138a6628f
         if (entityList != null) {
             result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
         } else {
