@@ -10,6 +10,13 @@ import java.util.Set;
  * Created by eddie on 2017/12/26.
  */
 public interface UserService extends BaseService<UserDto> {
+
+    /**
+     * 编辑用户
+     * @return
+     */
+    Result<Integer> editUser(UserDto userDto);
+
     /**
      * 创建新用户
      * @param userDto

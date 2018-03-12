@@ -42,4 +42,8 @@ public class Pagination implements Entity {
     public void setStart(Integer start) {
         this.start = start;
     }
+
+    public boolean isValid() {
+        return page > 0 && pageSize > 0;
+    }
 }

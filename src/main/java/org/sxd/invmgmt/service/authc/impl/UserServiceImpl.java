@@ -34,6 +34,27 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
         this.userDao = userDao;
     }
 
+    public Result<Integer> editUser(UserDto userDto) {
+        if (userDto.getId() == null && userDto.getUsername() == null) {
+            return new Result(false, "id和用户名为空", 0);
+        }
+        UserEntity userEntity = dtoToEntity(userDto);
+        if (userDto.getId() != null) {
+            if (userDao.selectById(userEntity) != null) {
+                return this.edit(userDto);
+            } else {
+                return new Result<Integer>(false, "操作失败，该用户不存在", 0);
+            }
+        } else {
+            if (userDao.selectByUsername(userDto.getUsername()) != null) {
+                return this.edit(userDto);
+            } else {
+                return new Result<Integer>(false, "操作失败，该用户不存在", 0);
+            }
+        }
+
+    }
+
     public Result<Integer> createUser(UserDto userDto) {
         Result<Integer> result;
         if (userDto != null) {
