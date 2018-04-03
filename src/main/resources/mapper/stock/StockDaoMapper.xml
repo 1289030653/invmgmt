@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.sxd.invmgmt.dao.stock.StockDao">
+
+    <sql id="table_name">
+        stock
+    </sql>
+
+    <sql id="dynamic_full_match_condition">
+        <trim prefix="WHERE" prefixOverrides="AND ">
+            <if test="id != null">
+                AND <include refid="table_name"/>.id = #{id}
+            </if>
+            <if test="code != null">
+                AND <include refid="table_name"/>.code = #{code}
+            </if>
+            <if test="type != null">
+                AND <include refid="table_name"/>.type = #{type}
+            </if>
+            <if test="name != null">
+                AND <include refid="table_name"/>.name = #{name}
+            </if>
+            <if test="stock != null">
+                AND <include refid="table_name"/>.stock = #{stock}
+            </if>
+            <if test="unit != null">
+                AND <include refid="table_name"/>.unit = #{unit}
+            </if>
+            AND <include refid="table_name"/>.deleted = #{deleted}
+        </trim>
+    </sql>
+
+    <!--BaseDao中的方法-->
+    <insert id="insert" parameterType="StockEntity">
+        INSERT ignore INTO <include refid="table_name"/> (
+            code, type, name, stock, unit
+        )
+        VALUES (
+            #{code}, #{type}, #{name}, #{stock}, #{unit}
+        )
+    </insert>
+
+    <update id="update" parameterType="StockEntity">
+        UPDATE <include refid="table_name"/> SET
+            type = #{type},
+            stock = #{stock},
+            name = #{name}
+            unit = #{unit}
+        WHERE
+          id = #{id}
+    </update>
+
+    <update id="logicDelete" parameterType="StockEntity">
+        UPDATE <include refid="table_name"/> SET
+        deleted = 1
+        WHERE
+        id = #{id}
+    </update>
+
+    <select id="selectById" parameterType="StockEntity" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE
+        id = #{id} AND
+        deleted = 0
+    </select>
+
+    <select id="selectOne" parameterType="StockEntity" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+        LIMIT 1
+    </select>
+
+    <select id="selectCount" parameterType="StockEntity" resultType="Integer">
+        SELECT COUNT(1) FROM <include refid="table_name" />
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="select" parameterType="StockEntity" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+    </select>
+
+    <select id="selectAll" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE deleted = 0
+    </select>
+
+    <select id="selectByPage" parameterType="StockEntity" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
+        LIMIT #{start}, #{pageSize}
+    </select>
+
+    <!--自定义方法-->
+    <select id="selectByCode" resultType="StockEntity">
+        SELECT * FROM <include refid="table_name"/>
+        WHERE code = #{code}
+    </select>
+
+</mapper>

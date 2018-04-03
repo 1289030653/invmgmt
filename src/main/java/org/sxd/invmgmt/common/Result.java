@@ -15,10 +15,25 @@ public class Result<T> {
      */
     private String msg;
 
+    private Integer totalPage;
+
     /**
      * 操作返回数据的对象
      */
     private T obj;
+
+    public static Result<Object> ok(Object obj) {
+        return new Result<Object>(true, "操作成功", obj);
+    }
+
+    public static Result<Object> fail() {
+        return new Result<Object>(false, "操作失败", null);
+    }
+
+    public Result(String msg) {
+        this.success = false;
+        this.msg = msg;
+    }
 
     public Result(boolean success, String msg) {
         this.success = success;
@@ -29,6 +44,19 @@ public class Result<T> {
         this.success = success;
         this.msg = msg;
         this.obj = obj;
+    }
+
+    public Result(boolean success, String msg, T obj, Integer totalPage) {
+        this(success,msg,obj);
+        this.totalPage = totalPage;
+    }
+
+    public Integer getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(Integer totalPage) {
+        this.totalPage = totalPage;
     }
 
     public boolean isSuccess() {

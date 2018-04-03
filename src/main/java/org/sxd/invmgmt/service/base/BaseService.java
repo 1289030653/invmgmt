@@ -72,6 +72,6 @@ public interface BaseService<D extends Dto> {
      * @param  pagination
      * @return
      */
-    public Result<List<D>> findByPage(Pagination pagination);
+    public Result<List<D>> findByPage(D dto, Pagination pagination);
 
 }

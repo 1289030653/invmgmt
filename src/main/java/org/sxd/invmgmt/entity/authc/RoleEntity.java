@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Created by eddie on 2017/12/25.
  */
-public class RoleEntity implements Entity {
+public class RoleEntity extends Entity {
     /**
      * 编号
      */

@@ -238,12 +238,17 @@ public abstract class BaseServiceImpl<D extends Dto, E extends Entity>
         return result;
     }
 
-    public Result<List<D>> findByPage(Pagination pagination) {
+    public Result<List<D>> findByPage(D dto, Pagination pagination) {
         Result<List<D>> result;
         baseDaoCheck();
-        List<E> entityList = baseDao.selectByPage(pagination);
+        E entity = dtoToEntity(dto);
+        Integer count = baseDao.selectCount(entity);
+        entity.setStart(pagination.getStart());
+        entity.setPageSize(pagination.getPageSize());
+        List<E> entityList = baseDao.selectByPage(entity);
         if (entityList != null) {
             result = new Result<List<D>>(true, "查询成功", entityListToDtoList(entityList));
+            result.setTotalPage((count + pagination.getPageSize() - 1) / pagination.getPageSize());
         } else {
             result = new Result<List<D>>(true, "查询为空", null);
         }

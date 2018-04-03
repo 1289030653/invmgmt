@@ -2,6 +2,7 @@ package org.sxd.invmgmt.service.authc;
 
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dto.authc.UserDto;
+import org.sxd.invmgmt.dto.authc.UserListDto;
 import org.sxd.invmgmt.service.base.BaseService;
 
 import java.util.Set;
@@ -22,7 +23,7 @@ public interface UserService extends BaseService<UserDto> {
      * @param userDto
      * @return
      */
-    Result<Integer> createUser(UserDto userDto);
+    Result<UserListDto> createUser(UserDto userDto);
 
     /**
      * 修改密码

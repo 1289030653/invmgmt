@@ -1,16 +1,13 @@
 package org.sxd.invmgmt.entity.authc;
 
-import org.springframework.util.StringUtils;
+
 import org.sxd.invmgmt.entity.base.Entity;
-
-import java.util.List;
-
 
 /**
  * Created by eddie on 2017/12/25.
  * 用户实体类
  */
-public class UserEntity implements Entity {
+public class UserEntity extends Entity {
     /**
      * 编号
      */

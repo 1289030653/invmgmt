@@ -6,6 +6,7 @@ import org.sxd.invmgmt.common.MsgEnum;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dao.authc.UserDao;
 import org.sxd.invmgmt.dto.authc.UserDto;
+import org.sxd.invmgmt.dto.authc.UserListDto;
 import org.sxd.invmgmt.entity.authc.UserEntity;
 import org.sxd.invmgmt.service.authc.RoleService;
 import org.sxd.invmgmt.service.authc.UserService;
@@ -55,27 +56,36 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
 
     }
 
-    public Result<Integer> createUser(UserDto userDto) {
-        Result<Integer> result;
+    public Result<UserListDto> createUser(UserDto userDto) {
+        Result<UserListDto> result;
         if (userDto != null) {
             String username = userDto.getUsername();
             String password = userDto.getPassword();
             //用户名密码不能为空
             if (username == null || password == null || "".equals(username) || "".equals(password)) {
-                return new Result<Integer>(false, "用户名或密码不能为空", null);
+                return new Result<UserListDto>(false, "用户名或密码不能为空", null);
             }
             //用户名是否已经存在
             UserEntity userEntity = userDao.selectByUsername(username);
             if (userEntity != null) {
-                return new Result<Integer>(false, "用户名已经存在", null);
+                return new Result<UserListDto>(false, "用户名已经存在", null);
             }
 
             //新增用户
             //加密密码
             passwordHelper.encryptPassword(userDto);
-            result = this.add(userDto);
+            this.add(userDto);
+            userDto = this.findByUsername(username).getObj();
+            UserListDto userListDto = new UserListDto();
+            userListDto.setId(userDto.getId());
+            userListDto.setUsername(userDto.getUsername());
+            userListDto.setName(userDto.getName());
+            userListDto.setRoleIdsList(userDto.getRoleIdsList());
+            userListDto.setLocked(userDto.getLocked());
+            userListDto.setOrganizationId(userDto.getOrganizationId());
+            return new Result<UserListDto>(true, "操作成功", userListDto);
         } else {
-            result = new Result<Integer>(false, MsgEnum.NULL_PARAMETER.getMsg(), null);
+            result = new Result<UserListDto>(false, MsgEnum.NULL_PARAMETER.getMsg(), null);
         }
         return result;
     }

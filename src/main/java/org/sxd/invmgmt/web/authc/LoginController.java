@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dto.authc.CurrentUser;
 import org.sxd.invmgmt.dto.authc.UserDto;
+import org.sxd.invmgmt.dto.authc.UserInfoDto;
 import org.sxd.invmgmt.service.authc.UserService;
 import org.sxd.invmgmt.web.base.BaseController;
 
@@ -30,7 +31,6 @@ public class LoginController extends BaseController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<CurrentUser> login(String password, String username, String rememberMe) {
         Result<CurrentUser> result;
-        System.out.println(rememberMe);
         String error = null;
         Subject subject = SecurityUtils.getSubject();
         UsernamePasswordToken token =
@@ -81,4 +81,16 @@ public class LoginController extends BaseController {
         return new Result<Object>(false, "未登陆", null);
     }
 
+    @RequestMapping(value = "/userInfo")
+    public Result<Object> userInfo() {
+        String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        if (null == currentUserName) {
+            return Result.fail();
+        }
+        UserDto userDto = userService.findByUsername(currentUserName).getObj();
+        UserInfoDto userInfoDto = new UserInfoDto();
+        userInfoDto.setName(userDto.getName());
+        userInfoDto.setUsername(userDto.getUsername());
+        return Result.ok(userDto);
+    }
 }

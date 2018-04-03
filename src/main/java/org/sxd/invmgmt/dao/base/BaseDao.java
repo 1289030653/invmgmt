@@ -65,5 +65,5 @@ public interface BaseDao<E extends Entity> {
      */
     public List<E> selectAll();
 
-    public List<E> selectByPage(Pagination pagination);
+    public List<E> selectByPage(E entity);
 }

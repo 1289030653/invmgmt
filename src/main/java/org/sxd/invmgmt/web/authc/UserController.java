@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dto.authc.UserDto;
+import org.sxd.invmgmt.dto.authc.UserListDto;
 import org.sxd.invmgmt.entity.base.Pagination;
 import org.sxd.invmgmt.service.authc.UserService;
 import org.sxd.invmgmt.web.base.BaseController;
@@ -26,11 +27,11 @@ public class UserController extends BaseController {
      */
     @RequiresRoles("admin")
     @GetMapping("/users")
-    public Result<List<UserDto>> getList(Pagination pagination) {
+    public Result<List<UserDto>> getList(UserDto userDto, Pagination pagination) {
         if (pagination == null || ! pagination.isValid()) {
             pagination = new Pagination();
         }
-        return userService.findByPage(pagination);
+        return userService.findByPage(userDto, pagination);
     }
 
     /**
@@ -40,13 +41,14 @@ public class UserController extends BaseController {
      */
     @RequiresRoles("admin")
     @PostMapping("/users")
-    public Result<Integer> createUser(UserDto user) {
+    public Result<UserListDto> createUser(UserDto user) {
 
+        System.out.println(user.getUsername());
         if (user.getUsername() == null) {
-            return new Result<Integer>(false, "用户名不可为空", null);
+            return new Result<UserListDto>(false, "用户名不可为空", null);
         }
         if (user.getPassword() == null) {
-            return new Result<Integer>(false, "密码不可为空", null);
+            return new Result<UserListDto>(false, "密码不可为空", null);
         }
         return userService.createUser(user);
     }

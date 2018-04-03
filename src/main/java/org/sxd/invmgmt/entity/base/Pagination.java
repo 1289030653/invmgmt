@@ -3,12 +3,18 @@ package org.sxd.invmgmt.entity.base;
 /**
  * Created by eddie on 2018/2/4.
  */
-public class Pagination implements Entity {
+public class Pagination extends Entity {
     private Integer page = 1;
 
     private Integer pageSize = 10;
 
     private Integer start = 0;
+
+    private static Pagination pagination = new Pagination(0, 10);
+
+    public static Pagination getDefaultPagination() {
+        return pagination;
+    }
 
     public Pagination() {
     }

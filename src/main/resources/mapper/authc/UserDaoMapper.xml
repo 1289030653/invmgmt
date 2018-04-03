@@ -65,7 +65,7 @@
 
     <update id="logicDelete" parameterType="UserEntity">
         UPDATE <include refid="table_name"/> SET
-            deleted = #{deleted}
+            deleted = 1
         WHERE
             id = #{id}
     </update>
@@ -83,7 +83,7 @@
         LIMIT 1
     </select>
 
-    <select id="selectCount" parameterType="UserEntity">
+    <select id="selectCount" parameterType="UserEntity" resultType="Integer">
         SELECT COUNT(1) FROM <include refid="table_name" />
         <include refid="dynamic_full_match_condition" />
     </select>
@@ -98,8 +98,9 @@
         WHERE deleted = 0
     </select>
 
-    <select id="selectByPage" parameterType="Pagination" resultType="UserEntity">
+    <select id="selectByPage" parameterType="UserEntity" resultType="UserEntity">
         SELECT * FROM <include refid="table_name"/>
+        <include refid="dynamic_full_match_condition" />
         LIMIT #{start}, #{pageSize}
     </select>
 

@@ -5,7 +5,7 @@ import org.sxd.invmgmt.entity.base.Entity;
 /**
  * Created by eddie on 2017/12/25.
  */
-public class OrganizationEntity implements Entity {
+public class OrganizationEntity extends Entity {
     private Long id;
 
     /**

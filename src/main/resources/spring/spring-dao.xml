@@ -26,7 +26,13 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
         <property name="typeAliasesPackage" value="org.sxd.invmgmt.entity"/>
-        <property name="mapperLocations" value="classpath:mapper/authc/*.xml"/>
+        <property name="mapperLocations">
+            <array>
+                <value>classpath:mapper/authc/*.xml</value>
+                <value>classpath:mapper/stock/*.xml</value>
+            </array>
+        </property>
+
     </bean>
     <!-- 4：配置扫描dao接口包，动态实现dao接口，注入到spring容器中 -->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
