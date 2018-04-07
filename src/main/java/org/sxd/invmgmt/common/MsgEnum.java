@@ -8,6 +8,7 @@ public enum MsgEnum {
     OPRATION_FAILED("操作失败"),
     OPRATION_SUCCEED("操作成功"),
     NO_DATA_FOUND("找不到数据"),
+    INVALID_STOCK("库存不能小于0"),
     NULL_RESULT("查询结果为空");
 
     private String msg;

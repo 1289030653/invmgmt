@@ -2,10 +2,10 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.sxd.invmgmt.dao.stock.StockDao">
+<mapper namespace="org.sxd.invmgmt.dao.stock.OrderDao">
 
     <sql id="table_name">
-        stock
+        order
     </sql>
 
     <sql id="dynamic_full_match_condition">
@@ -13,90 +13,92 @@
             <if test="id != null">
                 AND <include refid="table_name"/>.id = #{id}
             </if>
-            <if test="code != null">
-                AND <include refid="table_name"/>.code = #{code}
+            <if test="userId != null">
+                AND <include refid="table_name"/>.userId = #{userId}
             </if>
-            <if test="type != null">
-                AND <include refid="table_name"/>.type = #{type}
+            <if test="deptId != null">
+                AND <include refid="table_name"/>.deptId = #{deptId}
             </if>
-            <if test="name != null">
-                AND <include refid="table_name"/>.name = #{name}
+            <if test="stockIds != null">
+                AND <include refid="table_name"/>.stockIds = #{stockIds}
             </if>
-            <if test="stock != null">
-                AND <include refid="table_name"/>.stock = #{stock}
+            <if test="stocks != null">
+                AND <include refid="table_name"/>.stocks = #{stocks}
             </if>
-            <if test="unit != null">
-                AND <include refid="table_name"/>.unit = #{unit}
+            <if test="status != null">
+                AND <include refid="table_name"/>.status = #{status}
+            </if>
+            <if test="msg != null">
+                AND <include refid="table_name"/>.msg = #{msg}
             </if>
             AND <include refid="table_name"/>.deleted = #{deleted}
         </trim>
     </sql>
 
     <!--BaseDao中的方法-->
-    <insert id="insert" parameterType="StockEntity">
+    <insert id="insert" parameterType="OrderEntity">
         INSERT ignore INTO <include refid="table_name"/> (
-            code, type, name, stock, unit
+        userId, deptId, stockIds, stocks, status, msg
         )
         VALUES (
-            #{code}, #{type}, #{name}, #{stock}, #{unit}
+        #{userId}, #{deptId}, #{stockIds}, #{stocks}, #{status}, #{msg}
         )
     </insert>
 
-    <update id="update" parameterType="StockEntity">
+    <update id="update" parameterType="OrderEntity">
         UPDATE <include refid="table_name"/> SET
-            type = #{type},
-            stock = #{stock},
-            name = #{name},
-            unit = #{unit}
+        userId = #{userId},
+        deptId = #{deptId},
+        stockIds = #{stockIds},
+        stocks = #{stocks},
+        status = #{status},
+        msg = #{stockIds}
         WHERE
-          id = #{id}
+        id = #{id}
     </update>
 
-    <update id="logicDelete" parameterType="StockEntity">
+    <update id="logicDelete" parameterType="OrderEntity">
         UPDATE <include refid="table_name"/> SET
         deleted = 1
         WHERE
         id = #{id}
     </update>
 
-    <select id="selectById" parameterType="StockEntity" resultType="StockEntity">
+    <select id="selectById" parameterType="OrderEntity" resultType="OrderEntity">
         SELECT * FROM <include refid="table_name"/>
         WHERE
         id = #{id} AND
         deleted = 0
     </select>
 
-    <select id="selectOne" parameterType="StockEntity" resultType="StockEntity">
+    <select id="selectOne" parameterType="OrderEntity" resultType="OrderEntity">
         SELECT * FROM <include refid="table_name"/>
         <include refid="dynamic_full_match_condition" />
         LIMIT 1
     </select>
 
-    <select id="selectCount" parameterType="StockEntity" resultType="Integer">
+    <select id="selectCount" parameterType="OrderEntity" resultType="Integer">
         SELECT COUNT(1) FROM <include refid="table_name" />
         <include refid="dynamic_full_match_condition" />
     </select>
 
-    <select id="select" parameterType="StockEntity" resultType="StockEntity">
+    <select id="select" parameterType="OrderEntity" resultType="OrderEntity">
         SELECT * FROM <include refid="table_name"/>
         <include refid="dynamic_full_match_condition" />
     </select>
 
-    <select id="selectAll" resultType="StockEntity">
+    <select id="selectAll" resultType="OrderEntity">
         SELECT * FROM <include refid="table_name"/>
         WHERE deleted = 0
     </select>
 
-    <select id="selectByPage" parameterType="StockEntity" resultType="StockEntity">
+    <select id="selectByPage" parameterType="OrderEntity" resultType="OrderEntity">
         SELECT * FROM <include refid="table_name"/>
         <include refid="dynamic_full_match_condition" />
         LIMIT #{start}, #{pageSize}
     </select>
 
     <!--自定义方法-->
-    <select id="selectByCode" resultType="StockEntity">
-        SELECT * FROM <include refid="table_name"/>
-        WHERE code = #{code}
-    </select>
+
 
 </mapper>

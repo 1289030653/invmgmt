@@ -39,16 +39,23 @@ public class StockServiceImpl extends BaseServiceImpl<StockDto, StockEntity> imp
 
     public Result<Integer> addStock(StockDto stockDto) {
         if (null != stockDto
+                && null != stockDto.getId()
                 && StringUtils.isNotBlank(stockDto.getCode())
-                && StringUtils.isNotBlank(stockDto.getName())
-                && StringUtils.isNotBlank(stockDto.getUnit())
-                && null != stockDto.getType()) {
-            if (null != stockDao.selectByCode(stockDto.getCode())) {
-                return new Result<Integer>(false, "编码已存在", 0);
+                && null != stockDto.getStock()) {
+            if (stockDto.getStock() < 0) {
+                return new Result<Integer>(false, MsgEnum.INVALID_STOCK.getMsg(), 0);
             }
-            return this.add(stockDto);
+            StockDto dto = this.findById(stockDto).getObj();
+            if (null == dto) {
+                return new Result<Integer>(false, "货品不存在", 0);
+            }
+            if (stockDto.getStock() > dto.getStock()) {
+                return new Result<Integer>(false, "库存不足", 0);
+            }
+            dto.setStock(dto.getStock() - stockDto.getStock());
+            return this.edit(dto);
         }
-        return null;
+        return new Result<Integer>(false, MsgEnum.NULL_PARAMETER.getMsg(), 0);
     }
 
     public Result<Integer> subStock(StockDto stockDto) {
