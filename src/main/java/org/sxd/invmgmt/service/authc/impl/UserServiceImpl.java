@@ -1,5 +1,6 @@
 package org.sxd.invmgmt.service.authc.impl;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.sxd.invmgmt.common.MsgEnum;
@@ -129,5 +130,30 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
 
     public Set<String> findPermissions(String username) {
         return null;
+    }
+
+    public Result<Integer> changePassword(UserDto dto) {
+        if (null == dto || null == dto.getPassword() || null == dto.getId()) {
+            return new Result<Integer>(false, MsgEnum.WRONG_PASSWORD.getMsg(), 0);
+        }
+        passwordHelper.encryptPassword(dto);
+        UserDto user = this.findById(dto).getObj();
+        if (user.getPassword().equals(dto.getPassword())) {
+            user.setPassword(dto.getPassword());
+            user.setSalt(dto.getSalt());
+            return this.edit(user);
+        } else {
+            return new Result<Integer>(false, MsgEnum.WRONG_PASSWORD.getMsg(), 0);
+        }
+    }
+
+    public Result<Integer> changeInfo(UserDto dto) {
+        String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        UserDto user = this.findByUsername(currentUserName).getObj();
+        if (null != dto.getName()) {
+            user.setName(dto.getName());
+        }
+
+        return this.edit(user);
     }
 }

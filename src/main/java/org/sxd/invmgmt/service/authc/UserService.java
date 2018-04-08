@@ -52,4 +52,8 @@ public interface UserService extends BaseService<UserDto> {
      * @return
      */
     Set<String> findPermissions(String username);
+
+    Result<Integer> changePassword(UserDto dto);
+
+    Result<Integer> changeInfo(UserDto dto);
 }

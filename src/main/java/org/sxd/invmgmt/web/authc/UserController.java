@@ -94,5 +94,14 @@ public class UserController extends BaseController {
         return userService.editUser(user);
     }
 
+    @PutMapping("/users/changePassword")
+    public Result<Integer> changePassword(UserDto user) {
+        return userService.changePassword(user);
+    }
+
+    @PutMapping("/users/changeInfo")
+    public Result<Integer> changeInfo(UserDto user) {
+        return userService.changeInfo(user);
+    }
 
 }

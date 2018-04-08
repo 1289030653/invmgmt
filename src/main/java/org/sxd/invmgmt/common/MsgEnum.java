@@ -5,6 +5,7 @@ package org.sxd.invmgmt.common;
  */
 public enum MsgEnum {
     NULL_PARAMETER ("参数不能为空"),
+    WRONG_PASSWORD ("参数不能为空"),
     OPRATION_FAILED("操作失败"),
     OPRATION_SUCCEED("操作成功"),
     NO_DATA_FOUND("找不到数据"),

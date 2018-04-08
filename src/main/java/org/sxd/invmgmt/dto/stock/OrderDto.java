@@ -4,7 +4,9 @@ import org.springframework.util.StringUtils;
 import org.sxd.invmgmt.dto.base.Dto;
 import org.sxd.invmgmt.entity.base.Entity;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -55,6 +57,16 @@ public class OrderDto implements Dto {
      * 描述
      */
     private String msg;
+
+    private Date createDate;
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
     public Long getId() {
         return id;

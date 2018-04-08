@@ -38,10 +38,10 @@
     <!--BaseDao中的方法-->
     <insert id="insert" parameterType="OrderEntity">
         INSERT ignore INTO <include refid="table_name"/> (
-        userId, deptId, stockIds, stocks, status, msg
+        userId, deptId, stockIds, stocks, status, msg, createDate
         )
         VALUES (
-        #{userId}, #{deptId}, #{stockIds}, #{stocks}, #{status}, #{msg}
+        #{userId}, #{deptId}, #{stockIds}, #{stocks}, #{status}, #{msg}, #{createDate}
         )
     </insert>
 
