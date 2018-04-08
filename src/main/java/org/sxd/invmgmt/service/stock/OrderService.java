@@ -1,6 +1,7 @@
 package org.sxd.invmgmt.service.stock;
 
 import org.sxd.invmgmt.common.Result;
+import org.sxd.invmgmt.dto.stock.OrderDetailDto;
 import org.sxd.invmgmt.dto.stock.OrderDto;
 import org.sxd.invmgmt.dto.stock.StockDto;
 import org.sxd.invmgmt.service.base.BaseService;
@@ -23,4 +24,6 @@ public interface OrderService extends BaseService<OrderDto> {
      * 按领料单出库
      */
     Result<Integer> orderDeliver(Long id);
+
+    Result<OrderDetailDto> orderDetail(OrderDto orderDto);
 }

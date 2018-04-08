@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dto.authc.UserDto;
+import org.sxd.invmgmt.dto.stock.OrderDetailDto;
 import org.sxd.invmgmt.dto.stock.OrderDto;
 import org.sxd.invmgmt.entity.base.Pagination;
 import org.sxd.invmgmt.service.authc.UserService;
@@ -66,5 +67,12 @@ public class OrderController {
     @PutMapping("/orders/deliver")
     public Result<Integer> deliver(OrderDto orderDto) {
         return orderService.orderDeliver(orderDto.getId());
+    }
+
+    @GetMapping("/orders/detail/{id}")
+    public Result<OrderDetailDto> getDetail(@PathVariable Long id) {
+        OrderDto orderDto = new OrderDto();
+        orderDto.setId(id);
+        return orderService.orderDetail(orderDto);
     }
 }

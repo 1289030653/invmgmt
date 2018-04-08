@@ -31,6 +31,12 @@ public class StockDto implements Dto {
      */
     private String unit;
 
+    public StockDto(){}
+
+    public StockDto(Long id){
+        this.id = id;
+    }
+
     public Long getId() {
         return id;
     }

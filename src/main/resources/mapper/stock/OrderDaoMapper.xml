@@ -5,7 +5,7 @@
 <mapper namespace="org.sxd.invmgmt.dao.stock.OrderDao">
 
     <sql id="table_name">
-        order
+        stock_order
     </sql>
 
     <sql id="dynamic_full_match_condition">
@@ -99,6 +99,14 @@
     </select>
 
     <!--自定义方法-->
-
+    <select id="selectDetail" parameterType="OrderEntity" resultType="OrderDetailEntity">
+        SELECT
+        stock_order.id, stock_order.userId, stock_order.deptId, stock_order.stockIds,
+        stock_order.stocks, stock_order.status, stock_order.msg, stock_order.createDate,
+        organization.name as deptName,user.username as username
+        FROM stock_order
+        LEFT JOIN organization ON stock_order.deptId = organization.id LEFT JOIN user ON stock_order.userId = user.id
+        <include refid="dynamic_full_match_condition" />
+    </select>
 
 </mapper>

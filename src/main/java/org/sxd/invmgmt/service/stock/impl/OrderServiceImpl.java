@@ -6,14 +6,18 @@ import org.springframework.transaction.annotation.Transactional;
 import org.sxd.invmgmt.common.MsgEnum;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dao.stock.OrderDao;
+import org.sxd.invmgmt.dto.stock.OrderDetailDto;
 import org.sxd.invmgmt.dto.stock.OrderDto;
 import org.sxd.invmgmt.dto.stock.StockDto;
+import org.sxd.invmgmt.entity.stock.OrderDetailEntity;
 import org.sxd.invmgmt.entity.stock.OrderEntity;
 import org.sxd.invmgmt.service.base.impl.BaseServiceImpl;
 import org.sxd.invmgmt.service.stock.OrderService;
 import org.sxd.invmgmt.service.stock.StockService;
+import org.sxd.invmgmt.utils.BeanCopyUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by eddie on 2018/4/5.
@@ -24,13 +28,13 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderDto, OrderEntity> imp
     private OrderDao orderDao;
 
     @Autowired
+    private StockService stockService;
+
+    @Autowired
     public void setOrderDao(OrderDao orderDao) {
         this.baseDao = orderDao;
         this.orderDao  = orderDao;
     }
-
-    @Autowired
-    private StockService stockService;
 
     public Result<Integer> orderPass(Long id) {
         if (null == id) {
@@ -86,4 +90,30 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderDto, OrderEntity> imp
         dto.setStatus(3);
         return this.edit(dto);
     }
+
+    public Result<OrderDetailDto> orderDetail(OrderDto orderDto) {
+        baseDaoCheck();
+        dtoCheck(orderDto);
+        if (null == orderDto.getId()) {
+            return new Result<OrderDetailDto>(false, MsgEnum.WRONG_PASSWORD.getMsg(), null);
+        }
+        OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setId(orderDto.getId());
+        OrderDetailEntity orderDetailEntity = orderDao.selectDetail(orderEntity);
+        OrderDetailDto orderDetailDto = detailEntityToDetailDto(orderDetailEntity);
+        List<StockDto> list = orderDetailDto.getStockIdsList().stream().map((id) -> stockService.findById(new StockDto(id)).getObj()).collect(Collectors.toList());
+        orderDetailDto.setStockDetailList(list);
+        return new Result<OrderDetailDto>(true, MsgEnum.OPRATION_SUCCEED.getMsg(), orderDetailDto);
+    }
+
+    protected OrderDetailDto detailEntityToDetailDto(OrderDetailEntity entity) {
+        if (entity != null) {
+            OrderDetailDto dto = new OrderDetailDto();
+            BeanCopyUtil.copyProperties(dto, entity);
+            return dto;
+        }
+        return null;
+    }
+
+
 }
