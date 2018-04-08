@@ -21,6 +21,16 @@ public class CurrentUser implements Dto {
      */
     private String name;
 
+    private String roleIds;
+
+    public String getRoleIds() {
+        return roleIds;
+    }
+
+    public void setRoleIds(String roleIds) {
+        this.roleIds = roleIds;
+    }
+
     public CurrentUser() {}
 
     public CurrentUser(Long id, String username, String name) {
@@ -31,6 +41,7 @@ public class CurrentUser implements Dto {
 
     public CurrentUser(UserDto userDto) {
         this(userDto.getId(), userDto.getUsername(), userDto.getName());
+        this.roleIds = userDto.getRoleIds();
     }
 
     public Long getId() {
