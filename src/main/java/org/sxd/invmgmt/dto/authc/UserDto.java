@@ -30,7 +30,10 @@ public class UserDto implements Dto {
      * 密码
      */
     private String password;
-
+    /**
+     * 老密码
+     */
+    private String oldPassword;
     /**
      * 名字
      */
@@ -54,7 +57,7 @@ public class UserDto implements Dto {
     /**
      * 是否锁定
      */
-    private Boolean locked = Boolean.FALSE;
+    private Boolean locked;
 
     /**
      * 删除标记
@@ -75,6 +78,14 @@ public class UserDto implements Dto {
     public UserDto(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
     }
 
     public Long getId() {

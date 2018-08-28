@@ -19,7 +19,6 @@ import java.util.List;
 public class UserController extends BaseController {
     @Autowired
     private UserService userService;
-
     /**
      * 获取用户列表
      * @param pagination
@@ -33,7 +32,6 @@ public class UserController extends BaseController {
         }
         return userService.findByPage(userDto, pagination);
     }
-
     /**
      * 增加一个用户
      * @param user
@@ -43,13 +41,13 @@ public class UserController extends BaseController {
     @PostMapping("/users")
     public Result<UserListDto> createUser(UserDto user) {
 
-        System.out.println(user.getUsername());
         if (user.getUsername() == null) {
             return new Result<UserListDto>(false, "用户名不可为空", null);
         }
         if (user.getPassword() == null) {
             return new Result<UserListDto>(false, "密码不可为空", null);
         }
+        user.setLocked(false);
         return userService.createUser(user);
     }
 
@@ -87,19 +85,18 @@ public class UserController extends BaseController {
     public Result<UserDto> getUserByUsername(@PathVariable String username) {
         return userService.findByUsername(username);
     }
-
     @RequiresRoles("admin")
-    @PutMapping("/users")
+    @PostMapping("/users/edit")
     public Result<Integer> editUser(UserDto user) {
         return userService.editUser(user);
     }
 
-    @PutMapping("/users/changePassword")
+    @PostMapping("/users/info/changePassword")
     public Result<Integer> changePassword(UserDto user) {
         return userService.changePassword(user);
     }
 
-    @PutMapping("/users/changeInfo")
+    @PostMapping("/users/info/changeInfo")
     public Result<Integer> changeInfo(UserDto user) {
         return userService.changeInfo(user);
     }

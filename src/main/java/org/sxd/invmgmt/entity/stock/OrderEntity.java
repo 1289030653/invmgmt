@@ -72,7 +72,7 @@ public class OrderEntity extends Entity {
     }
 
     public void setUserId(Long userId) {
-        userId = userId;
+        this.userId = userId;
     }
 
     public Long getDeptId() {
@@ -122,4 +122,5 @@ public class OrderEntity extends Entity {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
 }

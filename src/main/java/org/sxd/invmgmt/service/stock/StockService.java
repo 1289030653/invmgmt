@@ -18,6 +18,8 @@ public interface StockService extends BaseService<StockDto> {
      */
     Result<Integer> addStock(StockDto stockDto);
 
+    Result<Integer> createOrEditStock(StockDto stockDto);
+
     /**
      * 减少库存
      */

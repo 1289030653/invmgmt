@@ -46,7 +46,7 @@ public class UserEntity extends Entity {
     /**
      * 是否锁定
      */
-    private Boolean locked = Boolean.FALSE;
+    private Boolean locked;
 
     /**
      * 删除标记

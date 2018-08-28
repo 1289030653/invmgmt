@@ -55,7 +55,7 @@
             organization_id = #{organizationId},
             username = #{username},
             password = #{password},
-            name = #{name}
+            name = #{name},
             salt = #{salt},
             role_ids = #{roleIds},
             locked = #{locked}

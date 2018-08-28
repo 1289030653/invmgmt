@@ -1,20 +1,24 @@
 package org.sxd.invmgmt.service.stock.impl;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.sxd.invmgmt.common.MsgEnum;
 import org.sxd.invmgmt.common.Result;
 import org.sxd.invmgmt.dao.stock.OrderDao;
+import org.sxd.invmgmt.dto.authc.UserDto;
 import org.sxd.invmgmt.dto.stock.OrderDetailDto;
 import org.sxd.invmgmt.dto.stock.OrderDto;
 import org.sxd.invmgmt.dto.stock.StockDto;
 import org.sxd.invmgmt.entity.stock.OrderDetailEntity;
 import org.sxd.invmgmt.entity.stock.OrderEntity;
+import org.sxd.invmgmt.service.authc.UserService;
 import org.sxd.invmgmt.service.base.impl.BaseServiceImpl;
 import org.sxd.invmgmt.service.stock.OrderService;
 import org.sxd.invmgmt.service.stock.StockService;
 import org.sxd.invmgmt.utils.BeanCopyUtil;
+import org.sxd.invmgmt.utils.DateHelper;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,6 +33,9 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderDto, OrderEntity> imp
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     public void setOrderDao(OrderDao orderDao) {
@@ -103,7 +110,19 @@ public class OrderServiceImpl extends BaseServiceImpl<OrderDto, OrderEntity> imp
         OrderDetailDto orderDetailDto = detailEntityToDetailDto(orderDetailEntity);
         List<StockDto> list = orderDetailDto.getStockIdsList().stream().map((id) -> stockService.findById(new StockDto(id)).getObj()).collect(Collectors.toList());
         orderDetailDto.setStockDetailList(list);
+        orderDetailDto.setDateStr(DateHelper.dateToString(orderDetailDto.getCreateDate(), "yyyy-MM-dd hh:mm:ss"));
         return new Result<OrderDetailDto>(true, MsgEnum.OPRATION_SUCCEED.getMsg(), orderDetailDto);
+    }
+
+    @Override
+    public Result<Integer> addOrder(OrderDto orderDto) {
+        String currentUserName = (String) SecurityUtils.getSubject().getPrincipal();
+        UserDto userDto = userService.findByUsername(currentUserName).getObj();
+        orderDto.setStatus(0);
+        orderDto.setUserId(userDto.getId());
+        orderDto.setUsername(userDto.getUsername());
+        orderDto.setDeptId(userDto.getOrganizationId());
+        return this.add(orderDto);
     }
 
     protected OrderDetailDto detailEntityToDetailDto(OrderDetailEntity entity) {

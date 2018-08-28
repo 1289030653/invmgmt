@@ -66,11 +66,23 @@ public class StockServiceImpl extends BaseServiceImpl<StockDto, StockEntity> imp
         if (null == dto) {
             return new Result<Integer>(false, MsgEnum.NO_DATA_FOUND.getMsg(), 0);
         }
-        stockDto.setStock(dto.getStock() - stockDto.getStock());
-        return this.edit(stockDto);
+        dto.setStock(dto.getStock() - stockDto.getStock());
+        return this.edit(dto);
     }
 
     public Result<Integer> editStock(StockDto stockDto) {
         return null;
+    }
+
+    public Result<Integer> createOrEditStock(StockDto stockDto) {
+        if (null == stockDto.getCode()) {
+            return new Result<Integer>(false, "编码为空", 0);
+        }
+        StockEntity entity = stockDao.selectByCode(stockDto.getCode());
+        if (null == entity) {
+            return this.createStock(stockDto);
+        } else {
+            return this.addStock(stockDto);
+        }
     }
 }

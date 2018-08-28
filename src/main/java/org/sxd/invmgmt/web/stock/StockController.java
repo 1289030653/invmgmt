@@ -31,7 +31,12 @@ public class StockController {
         return stockService.add(stockDto);
     }
 
-    @PutMapping("/stock")
+    @PostMapping("/stock/in")
+    public Result<Integer> createOrAddStock(StockDto stockDto) {
+        return stockService.createOrEditStock(stockDto);
+    }
+
+    @PostMapping("/stock/edit")
     public Result<Integer> editStock(StockDto stockDto) {
         return stockService.edit(stockDto);
     }

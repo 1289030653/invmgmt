@@ -44,7 +44,7 @@ public class OrderDto implements Dto {
 
     /**
      * status
-     * 0 审核通过； 1 审核不通过； 2 已经出库； 3 出库失败
+     * 0 待舍批； 1 审核通过； 1 审核不通过；3 已经出库； 4 出库失败
      */
     private Integer status;
 
@@ -59,6 +59,26 @@ public class OrderDto implements Dto {
     private String msg;
 
     private Date createDate;
+
+    private String username;
+
+    private String dateStr;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getDateStr() {
+        return dateStr;
+    }
+
+    public void setDateStr(String dateStr) {
+        this.dateStr = dateStr;
+    }
 
     public Date getCreateDate() {
         return createDate;
@@ -81,7 +101,7 @@ public class OrderDto implements Dto {
     }
 
     public void setUserId(Long userId) {
-        userId = userId;
+        this.userId = userId;
     }
 
     public Long getDeptId() {

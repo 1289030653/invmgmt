@@ -45,4 +45,13 @@ public class PasswordHelper {
 
         user.setPassword(newPassword);
     }
+
+    public String getPassword(UserDto user) {
+        return new SimpleHash(
+                algorithmName,
+                user.getPassword(),
+                ByteSource.Util.bytes(user.getCredentialsSalt()),
+                hashIterations
+        ).toHex();
+    }
 }

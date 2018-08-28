@@ -26,4 +26,6 @@ public interface OrderService extends BaseService<OrderDto> {
     Result<Integer> orderDeliver(Long id);
 
     Result<OrderDetailDto> orderDetail(OrderDto orderDto);
+
+    Result<Integer> addOrder(OrderDto orderDto);
 }

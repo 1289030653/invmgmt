@@ -20,7 +20,7 @@
                 AND <include refid="table_name"/>.type = #{type}
             </if>
             <if test="name != null">
-                AND <include refid="table_name"/>.name = #{name}
+                AND <include refid="table_name"/>.name like "%"#{name}"%"
             </if>
             <if test="stock != null">
                 AND <include refid="table_name"/>.stock = #{stock}

@@ -40,6 +40,9 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
         if (userDto.getId() == null && userDto.getUsername() == null) {
             return new Result(false, "id和用户名为空", 0);
         }
+        if(null != userDto.getPassword() && !"".equals(userDto.getPassword())) {
+            passwordHelper.encryptPassword(userDto);
+        }
         UserEntity userEntity = dtoToEntity(userDto);
         if (userDto.getId() != null) {
             if (userDao.selectById(userEntity) != null) {
@@ -133,12 +136,18 @@ public class UserServiceImpl extends BaseServiceImpl<UserDto, UserEntity> implem
     }
 
     public Result<Integer> changePassword(UserDto dto) {
-        if (null == dto || null == dto.getPassword() || null == dto.getId()) {
+        System.out.println(dto.getUsername());
+        System.out.println(dto.getPassword());
+        System.out.println(dto.getOldPassword());
+        if (null == dto || null == dto.getPassword() || null == dto.getUsername()) {
             return new Result<Integer>(false, MsgEnum.WRONG_PASSWORD.getMsg(), 0);
         }
-        passwordHelper.encryptPassword(dto);
-        UserDto user = this.findById(dto).getObj();
-        if (user.getPassword().equals(dto.getPassword())) {
+        UserDto user = this.findByUsername(dto.getUsername()).getObj();
+        String oldPassword1 = user.getPassword();
+        user.setPassword(dto.getOldPassword());
+        String oldPassword2 = passwordHelper.getPassword(user);
+        if (oldPassword1.equals(oldPassword2)) {
+            passwordHelper.encryptPassword(dto);
             user.setPassword(dto.getPassword());
             user.setSalt(dto.getSalt());
             return this.edit(user);
