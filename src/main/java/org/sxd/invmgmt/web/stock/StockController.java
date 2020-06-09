@@ -11,7 +11,8 @@ import org.sxd.invmgmt.service.stock.StockService;
 import java.util.List;
 
 /**
- * Created by eddie on 2018/4/3.
+ * @author shenxudong
+ * @date 2020/6/10 12:10 上午
  */
 @RestController
 public class StockController {
